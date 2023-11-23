@@ -1,11 +1,23 @@
 import { Request, Response } from 'express';
 import { StudentServices } from './student.service';
+import studentValidationSchema from './student.validation';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
+    //creating a schema validation suing Jot
+
     const { student: studentData } = req.body;
+    const { error } = studentValidationSchema.validate(studentData);
 
     const result = await StudentServices.createStudentIntoDB(studentData);
+
+    if (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Something Went Wrong',
+        error: error.details,
+      });
+    }
 
     res.status(200).json({
       success: true,
