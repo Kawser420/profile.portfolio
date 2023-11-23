@@ -7,9 +7,11 @@ const createStudent = async (req: Request, res: Response) => {
     //creating a schema validation suing Jot
 
     const { student: studentData } = req.body;
-    const { error } = studentValidationSchema.validate(studentData);
 
-    const result = await StudentServices.createStudentIntoDB(studentData);
+    // data validation using Joi
+    const { error, value } = studentValidationSchema.validate(studentData);
+
+    const result = await StudentServices.createStudentIntoDB(value);
 
     if (error) {
       res.status(500).json({
