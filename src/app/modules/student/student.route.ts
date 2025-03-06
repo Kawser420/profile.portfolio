@@ -1,3 +1,4 @@
+// student route 
 import express from 'express';
 import { StudentControllers } from './student.controller';
 
